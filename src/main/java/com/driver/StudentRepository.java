@@ -28,11 +28,13 @@ public void addstudent(Student st) {
 	public void addstudent_teacher(String studentes,String teacher) {
 		
 		if(student_teacher.containsKey(teacher)){
-			List<Student>students=(List<Student>) student.get(studentes);
+			List<Student>students=student_teacher.get(teacher);
 			students.add(student.get(studentes));
+			student_teacher.put(teacher, students);
 		}else {
 			List<Student>students=new ArrayList<>();
 			students.add(student.get(studentes));
+			student_teacher.put(teacher, students);
 		}
 	}
 	
@@ -42,14 +44,18 @@ public void addstudent(Student st) {
 	}
 	
 	public Teacher getteacherbyname(String name) {
+		
 		return teacher.get(name);
 		
 	}
 	public List<String>getStudentsByTeacherName(String name){
+		
 		List<String>students=new ArrayList<>();
+		if(student_teacher.containsKey(name)) {
 		List<Student>st=student_teacher.get(name);
 		for(Student sts:st) {
 			students.add(sts.getName());
+		}
 		}
 return students;
 	}
@@ -71,7 +77,9 @@ return students;
 			student_teacher.remove(name);
 			
 		}else {
+			if(teacher.containsKey(name))
 			teacher.remove(name);
+			return;
 		}
 		
 	}
